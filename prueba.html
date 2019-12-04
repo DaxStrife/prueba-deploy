@@ -1,0 +1,176 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+         .heading-footer 
+{ 
+background-image: url('https://picsum.photos/seed/picsum/400/500'); 
+background-size: cover; 
+height: 175px; 
+-webkit-box-shadow: none; 
+box-shadow: none; 
+border: 0px; 
+border-radius: 0px; 
+}   
+ 
+.panel-profile-img 
+{ 
+max-width: 250px; 
+margin-top: -160px; 
+margin-bottom: 5px; 
+border: 3px solid #fff; 
+border-radius: 0%; 
+}
+    
+    </style>
+</head>
+<body>
+        <div style="padding-left: 30%; padding-right: 30%; margin-top: 50px;">
+            <div class="card">
+                <div class="card-header heading-footer"></div>
+                <div class="card-block text-center">
+                    <img class="panel-profile-img rounded-circle" src="https://picsum.photos/200/200">
+                    <p class="author-title"><strong>Lorem Ipsum</strong></p>
+                    <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."</p>
+                    <p>"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>
+                </div>
+            </div>
+        </div>
+
+
+
+
+    <div>
+        <div id='API'>
+            Hola
+        </div>
+        <img id='img' src="" alt="">
+        <img id="img_shiny">
+    </div>
+    <div>
+        <div>
+            Type: 
+            <div id="type"></div>
+        </div>
+        <div>
+            Hp:
+            <meter id="hp" value="" min="0" max="255"></meter>
+        </div>
+        <div>
+            Attack:
+            <meter id="attack" value="" min="0" max="255"></meter>
+        </div>
+        <div>
+            Special-attack:
+            <meter id="special_attack" value="" min="0" max="255"></meter>
+        </div>
+        <div>
+            Defense:
+            <meter id="defense" value="" min="0" max="255"></meter>
+        </div>
+        <div>
+            Special-defense:
+            <meter id="special_defense" value="" min="0" max="255"></meter>
+        </div>
+        <div>
+            Speed:
+            <meter id="speed" value="" min="0" max="255"></meter>
+        </div>
+    </div>
+
+    <input id="caja" type="number" placeholder="Introduce un numero entre 1 y 800" min="1" max="800">
+    <button onclick="Enviar()">Enter</button>
+    
+
+    
+    
+    <script>
+        var url = 'https://pokeapi.co/api/v2/pokemon/800/';
+        var api = document.getElementById('API');
+        var img = document.getElementById('img');
+        var img_shiny = document.getElementById('img_shiny');
+        var speed = document.getElementById('speed');
+        var special_defense = document.getElementById('special_defense');
+        var special_attack = document.getElementById('special_attack');
+        var defense = document.getElementById('defense');
+        var attack = document.getElementById('attack');
+        var hp = document.getElementById('hp');
+
+        var type = document.getElementById('type');
+
+        const get = () =>{
+            fetch(url)
+            .then((resultado)=>{
+                return resultado.json();
+            }) .then((res)=>{
+                console.log('====================================');
+                console.log(res);
+                api.innerHTML = res.name;
+                img.setAttribute('src',`${res.sprites.front_default}`);
+                img_shiny.setAttribute('src',`${res.sprites.front_shiny}`);
+
+                speed.value = res.stats[0].base_stat;
+                special_defense.value = res.stats[1].base_stat;
+                special_attack.value = res.stats[2].base_stat;
+                defense.value = res.stats[3].base_stat;
+                attack.value = res.stats[4].base_stat;
+                hp.value = res.stats[5].base_stat;
+                
+
+                if(res.types.length == 1){
+                    type.innerHTML = `<span>${res.types[0].type.name}</span>`;
+                } else{
+                    type.innerHTML += `<span>${res.types[0].type.name} </span>`;
+                    type.innerHTML += `<span>${res.types[1].type.name}</span>`;
+                }
+            })
+        }
+        get();
+
+        function Enviar(){
+            var numero = document.getElementById('caja').value;
+            type.innerHTML = "";
+            url = `https://pokeapi.co/api/v2/pokemon/${numero}/`;
+            get();
+        }
+        
+        
+    </script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id='lista'></div>
+</body>
+<script>
+    const lista = document.getElementById('lista');
+    const url = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=800';
+    fetch(url)
+    .then((resultado)=>{
+        return resultado.json();
+    }).then((res)=>{
+        // console.log(res);
+        for (let i = 0; i < res.results.length; i++) {
+            lista.innerHTML += `
+            <p>
+                <a href="${res.results[i].url}">#${i+1} ${res.results[i].name}</a>
+            </p>
+            `;
+        }
+    //    console.log(res.results[0]); 
+    })
+</script>
+</html>
